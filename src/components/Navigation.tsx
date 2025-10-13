@@ -84,7 +84,7 @@ export default function Navigation({ isDark, toggleTheme, onNavigate }: Navigati
         {/* Secondary Navigation */}
         <div className={`border-t ${isDark ? 'border-white/10' : 'border-black/10'}`}>
           <div className="max-w-screen-2xl mx-auto px-6">
-            <div className="flex items-center gap-8 overflow-x-auto scrollbar-hide py-3">
+            <div className="flex items-center justify-center gap-8 overflow-x-auto scrollbar-hide py-3">
               {categories.map((category) => (
                 <button
                   key={category}

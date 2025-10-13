@@ -20,7 +20,7 @@ export default function Model3D({ url }: Model3DProps) {
 
   return (
     <group ref={groupRef}>
-      <primitive object={scene} scale={1.5} position={[0, -1.8, 0]} />
+      <primitive object={scene} scale={1.5} position={[0, -1.0, 0]} />
     </group>
   );
 }

@@ -62,7 +62,7 @@ function AppWithRoutes() {
               </div>
 
               {/* 3D Model */}
-              <div className="absolute inset-0 z-10 flex items-center justify-center">
+              <div className="absolute inset-0 z-10 flex items-center justify-center pt-24">
                 <div className="w-full h-full max-w-4xl">
                   <ModelViewer isDark={isDark} />
                 </div>
