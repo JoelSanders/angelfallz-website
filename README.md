@@ -10,11 +10,20 @@ A modern, edgy, and youthful React website for the ANGELFALLZ clothing brand, fe
 - 📱 **Responsive Design**: Mobile-first, fully responsive layout
 - 🎨 **Modern UI**: Stussy-inspired navigation and minimalist design
 - ⚡ **Performance Optimized**: Built with Vite for fast development and production builds
+- 🛍️ **Shopify Integration**: Full e-commerce functionality
+  - Product catalog with real-time inventory
+  - Shopping cart with persistent state
+  - Variant selection (sizes, colors, etc.)
+  - Secure Shopify checkout
+  - Collection filtering
+  - Shopify POS compatibility
 
 ## Tech Stack
 
 - **React 18** - UI library
 - **TypeScript** - Type safety
+- **React Router** - Client-side routing
+- **Shopify Storefront API** - E-commerce backend
 - **Three.js** - 3D graphics
 - **React Three Fiber** - React renderer for Three.js
 - **React Three Drei** - Useful helpers for R3F
@@ -35,12 +44,25 @@ A modern, edgy, and youthful React website for the ANGELFALLZ clothing brand, fe
 npm install
 ```
 
-2. Start the development server:
+2. Set up Shopify integration:
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and add your Shopify credentials:
+```env
+VITE_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
+VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN=your_token_here
+```
+
+See [SHOPIFY_SETUP.md](./SHOPIFY_SETUP.md) for detailed setup instructions.
+
+3. Start the development server:
 ```bash
 npm run dev
 ```
 
-3. Open your browser and navigate to `http://localhost:5173`
+4. Open your browser and navigate to `http://localhost:5173`
 
 ### Building for Production
 
@@ -61,17 +83,42 @@ npm run preview
 ```
 src/
 ├── components/
+│   ├── Cart.tsx             # Shopping cart sidebar
 │   ├── LiquidEther.tsx      # Animated fluid background
 │   ├── Model3D.tsx          # 3D model component
 │   ├── ModelViewer.tsx      # 3D model canvas wrapper
-│   └── Navigation.tsx       # Header navigation
-├── App.tsx                  # Main app component
+│   ├── Navigation.tsx       # Header navigation with cart
+│   └── ProductCard.tsx      # Product grid item
+├── pages/
+│   ├── ShopPage.tsx         # Product listing page
+│   └── ProductDetailPage.tsx # Individual product page
+├── context/
+│   └── CartContext.tsx      # Shopping cart state
+├── services/
+│   └── shopify.ts           # Shopify API integration
+├── types/
+│   └── shopify.ts           # TypeScript type definitions
+├── config/
+│   └── shopify.ts           # Shopify configuration
+├── App.tsx                  # Main app with routing
 ├── main.tsx                 # App entry point
 └── index.css                # Global styles
 
 public/
 └── base.glb                 # 3D model file
 ```
+
+## Shopify Integration
+
+This website is fully integrated with Shopify for e-commerce functionality:
+
+- **Product Management**: Products are pulled directly from your Shopify store
+- **Inventory Sync**: Real-time stock levels and availability
+- **Cart Management**: Persistent shopping cart with localStorage
+- **Checkout**: Secure checkout hosted by Shopify
+- **POS Compatible**: Works with Shopify Point of Sale for in-person sales
+
+For detailed setup instructions, see [SHOPIFY_SETUP.md](./SHOPIFY_SETUP.md).
 
 ## Customization
 
@@ -88,14 +135,9 @@ const darkColors = ['#5227FF', '#FF9FFC', '#B19EEF'];
 
 Replace `public/base.glb` with your own 3D model file (supports .glb, .gltf formats).
 
-### Navigation
+### Shopify Store
 
-Edit menu items in `src/components/Navigation.tsx`:
-
-```typescript
-const menuItems = ['SHOP', 'COLLECTIONS', 'ABOUT'];
-const categories = ['NEW ARRIVALS', 'TEES', 'SWEATS', ...];
-```
+All products, collections, and inventory are managed through your Shopify admin panel. Changes sync automatically.
 
 ## Performance Tips
 

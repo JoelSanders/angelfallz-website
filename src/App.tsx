@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
 import Navigation from './components/Navigation';
 import ModelViewer from './components/ModelViewer';
 import LiquidEther from './components/LiquidEther';
+import Cart from './components/Cart';
+import ShopPage from './pages/ShopPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 
 function App() {
   const [isDark, setIsDark] = useState(true);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -21,13 +27,8 @@ function App() {
   const lightColors = ['#FF6B9D', '#C44569', '#FFC312'];
   const darkColors = ['#6B5FFF', '#B388FF', '#E040FB', '#7C4DFF'];
 
-  return (
-    <div className={`min-h-screen transition-colors duration-500 ${
-      isDark ? 'bg-black text-white' : 'bg-white text-black'
-    }`}>
-      {/* Navigation */}
-      <Navigation isDark={isDark} toggleTheme={toggleTheme} />
-
+  const HomePage = () => (
+    <>
       {/* Hero Section */}
       <section className="relative h-screen overflow-hidden">
         {/* Animated Background */}
@@ -141,7 +142,40 @@ function App() {
           </div>
         </div>
       </footer>
-    </div>
+    </>
+  );
+
+  return (
+    <Router>
+      <CartProvider>
+        <div className={`min-h-screen transition-colors duration-500 ${
+          isDark ? 'bg-black text-white' : 'bg-white text-black'
+        }`}>
+          {/* Navigation */}
+          <Navigation 
+            isDark={isDark} 
+            toggleTheme={toggleTheme}
+            onCartOpen={() => setIsCartOpen(true)} 
+          />
+
+          {/* Cart Sidebar */}
+          <Cart 
+            isDark={isDark} 
+            isOpen={isCartOpen} 
+            onClose={() => setIsCartOpen(false)} 
+          />
+
+          {/* Routes */}
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/shop" element={<ShopPage isDark={isDark} />} />
+            <Route path="/product/:handle" element={<ProductDetailPage isDark={isDark} />} />
+            <Route path="/collections" element={<div className="pt-32 pb-20 text-center">Collections page coming soon</div>} />
+            <Route path="/about" element={<div className="pt-32 pb-20 text-center">About page coming soon</div>} />
+          </Routes>
+        </div>
+      </CartProvider>
+    </Router>
   );
 }
 

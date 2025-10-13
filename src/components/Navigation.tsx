@@ -1,19 +1,21 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 interface NavigationProps {
   isDark: boolean;
   toggleTheme: () => void;
-  onNavigate?: (page: 'home' | 'shop' | 'product' | 'collections' | 'about') => void;
+  onCartOpen: () => void;
 }
 
-export default function Navigation({ isDark, toggleTheme, onNavigate }: NavigationProps) {
+export default function Navigation({ isDark, toggleTheme, onCartOpen }: NavigationProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const { cartCount } = useCart();
 
-  const menuItems = ['SHOP', 'COLLECTIONS', 'ABOUT'];
-  const categories = [
-    'NEW ARRIVALS',
-    'TEES',
-    'SWEATS'
+  const menuItems = [
+    { label: 'SHOP', path: '/shop' },
+    { label: 'COLLECTIONS', path: '/collections' },
+    { label: 'ABOUT', path: '/about' }
   ];
 
   return (
@@ -26,31 +28,27 @@ export default function Navigation({ isDark, toggleTheme, onNavigate }: Navigati
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <h1 
-                onClick={() => onNavigate?.('home')}
+              <Link 
+                to="/"
                 className="text-2xl font-bold tracking-wider animate-fade-in cursor-pointer hover:opacity-60 transition-opacity"
               >
                 ANGELFALLZ
-              </h1>
+              </Link>
             </div>
 
             {/* Center Menu */}
             <div className="hidden md:flex items-center gap-8">
               {menuItems.map((item) => (
-                <button
-                  key={item}
-                  onMouseEnter={() => setActiveMenu(item)}
-                  onClick={() => {
-                    if (item === 'SHOP') onNavigate?.('shop');
-                    if (item === 'COLLECTIONS') onNavigate?.('collections');
-                    if (item === 'ABOUT') onNavigate?.('about');
-                  }}
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  onMouseEnter={() => setActiveMenu(item.label)}
                   className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
-                    activeMenu === item ? 'opacity-60' : ''
+                    activeMenu === item.label ? 'opacity-60' : ''
                   }`}
                 >
-                  {item}
-                </button>
+                  {item.label}
+                </Link>
               ))}
             </div>
 
@@ -71,28 +69,19 @@ export default function Navigation({ isDark, toggleTheme, onNavigate }: Navigati
                   </svg>
                 )}
               </button>
-              <button className="text-sm font-medium tracking-wide transition-opacity hover:opacity-60">
-                SEARCH
+              <button 
+                onClick={onCartOpen}
+                className="relative text-sm font-medium tracking-wide transition-opacity hover:opacity-60"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </button>
-              <button className="text-sm font-medium tracking-wide transition-opacity hover:opacity-60">
-                BAG
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Secondary Navigation */}
-        <div className={`border-t ${isDark ? 'border-white/10' : 'border-black/10'}`}>
-          <div className="max-w-screen-2xl mx-auto px-6">
-            <div className="flex items-center justify-center gap-8 overflow-x-auto scrollbar-hide py-3">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  className="text-xs font-medium tracking-wider whitespace-nowrap transition-opacity hover:opacity-60"
-                >
-                  {category}
-                </button>
-              ))}
             </div>
           </div>
         </div>
@@ -102,7 +91,7 @@ export default function Navigation({ isDark, toggleTheme, onNavigate }: Navigati
       {activeMenu && (
         <div
           onMouseLeave={() => setActiveMenu(null)}
-          className={`fixed top-[120px] left-0 right-0 z-40 transition-all duration-300 ${
+          className={`fixed top-[80px] left-0 right-0 z-40 transition-all duration-300 ${
             isDark ? 'bg-black/90 text-white' : 'bg-white/90 text-black'
           } backdrop-blur-md animate-slide-down`}
         >
