@@ -60,88 +60,48 @@ function App() {
           </div>
         </div>
 
-        {/* Hero Text */}
-        <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-          <div className="text-center animate-fade-in">
-            <h2 className={`text-6xl md:text-8xl font-bold tracking-tighter mb-4 ${
-              isDark ? 'text-white/90' : 'text-black/90'
-            }`}>
-              
-            </h2>
-            <p className={`text-lg md:text-xl tracking-wide ${
-              isDark ? 'text-white/70' : 'text-black/70'
-            }`}>
-              
-            </p>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-          <svg 
-            className={`w-6 h-6 ${isDark ? 'text-white/50' : 'text-black/50'}`}
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </section>
-
-      {/* Featured Collections Section */}
-      <section className={`relative py-20 transition-colors duration-500 ${
-        isDark ? 'bg-black' : 'bg-white'
-      }`}>
-        <div className="max-w-screen-2xl mx-auto px-6">
-          <h3 className="text-4xl font-bold tracking-tight mb-12 animate-slide-up">
-            FEATURED COLLECTIONS
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item) => (
-              <div
-                key={item}
-                className={`group relative aspect-square overflow-hidden cursor-pointer transition-all duration-300 ${
-                  isDark ? 'bg-white/5 hover:bg-white/10' : 'bg-black/5 hover:bg-black/10'
-                }`}
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <h4 className="text-2xl font-bold mb-2">COLLECTION {item}</h4>
-                    <p className={`text-sm ${isDark ? 'text-white/60' : 'text-black/60'}`}>
-                      Explore Now
-                    </p>
-                  </div>
-                </div>
-                <div className={`absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100 ${
-                  isDark ? 'bg-white/5' : 'bg-black/5'
-                }`} />
+        {/* Bottom Content - Branding and Social Links */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 pb-12 pointer-events-none">
+          <div className="max-w-screen-2xl mx-auto px-6">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="text-center md:text-left">
+                <h4 className="text-2xl md:text-3xl font-bold mb-2 tracking-wider">ANGELFALLZ</h4>
+                <p className={`text-sm md:text-base ${isDark ? 'text-white/70' : 'text-black/70'}`}>
+                  Modern streetwear for the next generation
+                </p>
               </div>
-            ))}
+              <div className="flex gap-6 pointer-events-auto">
+                <a 
+                  href="https://www.instagram.com/angelfallz/" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-sm md:text-base hover:opacity-60 transition-opacity ${
+                    isDark ? 'text-white/90' : 'text-black/90'
+                  }`}
+                >
+                  Instagram
+                </a>
+                <a 
+                  href="#" 
+                  className={`text-sm md:text-base hover:opacity-60 transition-opacity ${
+                    isDark ? 'text-white/90' : 'text-black/90'
+                  }`}
+                >
+                  Twitter
+                </a>
+                <a 
+                  href="#" 
+                  className={`text-sm md:text-base hover:opacity-60 transition-opacity ${
+                    isDark ? 'text-white/90' : 'text-black/90'
+                  }`}
+                >
+                  TikTok
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className={`relative py-12 border-t transition-colors duration-500 ${
-        isDark ? 'bg-black border-white/10' : 'bg-white border-black/10'
-      }`}>
-        <div className="max-w-screen-2xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-center md:text-left">
-              <h4 className="text-xl font-bold mb-2">ANGELFALLZ</h4>
-              <p className={`text-sm ${isDark ? 'text-white/60' : 'text-black/60'}`}>
-                Modern streetwear for the next generation
-              </p>
-            </div>
-            <div className="flex gap-6">
-              <a href="https://www.instagram.com/angelfallz/" className="text-sm hover:opacity-60 transition-opacity">Instagram</a>
-              <a href="#" className="text-sm hover:opacity-60 transition-opacity">Twitter</a>
-              <a href="#" className="text-sm hover:opacity-60 transition-opacity">TikTok</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </>
   );
 
