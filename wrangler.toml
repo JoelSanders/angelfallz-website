@@ -1,0 +1,6 @@
+name = "angelfallz-website"
+compatibility_date = "2025-10-13"
+
+[assets]
+directory = "./dist"
+
