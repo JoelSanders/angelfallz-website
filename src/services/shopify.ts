@@ -1,11 +1,12 @@
 import Client from 'shopify-buy';
 import { shopifyConfig } from '../config/shopify';
-import type { ShopifyProduct, ShopifyCollection, ShopifyVariant } from '../types/shopify';
+import type { ShopifyProduct, ShopifyCollection } from '../types/shopify';
 
 // Initialize Shopify Client
 const client = Client.buildClient({
   domain: shopifyConfig.storeDomain,
   storefrontAccessToken: shopifyConfig.storefrontAccessToken,
+  apiVersion: shopifyConfig.apiVersion,
 });
 
 export class ShopifyService {
