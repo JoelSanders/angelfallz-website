@@ -9,7 +9,7 @@ interface ProductCardProps {
   isDark: boolean;
 }
 
-export default function ProductCard({ name, price, image, badge, isDark }: ProductCardProps) {
+export default function ProductCard({ name, price, badge, isDark }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
