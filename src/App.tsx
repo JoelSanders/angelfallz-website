@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import Navigation from './components/Navigation';
+import MobileMenu from './components/MobileMenu';
 import ModelViewer from './components/ModelViewer';
 import LiquidEther from './components/LiquidEther';
 import Cart from './components/Cart';
@@ -11,6 +12,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 function App() {
   const [isDark, setIsDark] = useState(true);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -115,7 +117,16 @@ function App() {
           <Navigation 
             isDark={isDark} 
             toggleTheme={toggleTheme}
-            onCartOpen={() => setIsCartOpen(true)} 
+            onCartOpen={() => setIsCartOpen(true)}
+            onMobileMenuOpen={() => setIsMobileMenuOpen(true)}
+          />
+
+          {/* Mobile Menu */}
+          <MobileMenu
+            isDark={isDark}
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+            onCartOpen={() => setIsCartOpen(true)}
           />
 
           {/* Cart Sidebar */}

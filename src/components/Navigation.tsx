@@ -1,21 +1,28 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 interface NavigationProps {
   isDark: boolean;
   toggleTheme: () => void;
   onCartOpen: () => void;
+  onMobileMenuOpen: () => void;
 }
 
-export default function Navigation({ isDark, toggleTheme, onCartOpen }: NavigationProps) {
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const { cartCount } = useCart();
+const MenuIcon = () => (
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+  </svg>
+);
 
-  const menuItems = [
-    { label: 'SHOP', path: '/shop' },
-    { label: 'COLLECTIONS', path: '/collections' },
-    { label: 'ABOUT', path: '/about' }
+export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMenuOpen }: NavigationProps) {
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const menuItems = ['SHOP', 'COLLECTIONS', 'ABOUT'];
+  const categories = [
+    'NEW ARRIVALS',
+    'TEES',
+    'SWEATS'
   ];
 
   return (
@@ -28,32 +35,36 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen }: Navigati
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link 
-                to="/"
+              <h1 
+                onClick={() => navigate('/')}
                 className="text-2xl font-bold tracking-wider animate-fade-in cursor-pointer hover:opacity-60 transition-opacity"
               >
                 ANGELFALLZ
-              </Link>
+              </h1>
             </div>
 
             {/* Center Menu */}
             <div className="hidden md:flex items-center gap-8">
               {menuItems.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  onMouseEnter={() => setActiveMenu(item.label)}
+                <button
+                  key={item}
+                  onMouseEnter={() => setActiveMenu(item)}
+                  onClick={() => {
+                    if (item === 'SHOP') navigate('/shop');
+                    if (item === 'COLLECTIONS') navigate('/collections');
+                    if (item === 'ABOUT') navigate('/about');
+                  }}
                   className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
-                    activeMenu === item.label ? 'opacity-60' : ''
+                    activeMenu === item ? 'opacity-60' : ''
                   }`}
                 >
-                  {item.label}
-                </Link>
+                  {item}
+                </button>
               ))}
             </div>
 
             {/* Right Side Actions */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 md:gap-6">
               <button 
                 onClick={toggleTheme}
                 className="p-2 rounded-full transition-all duration-200 hover:opacity-60"
@@ -71,17 +82,34 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen }: Navigati
               </button>
               <button 
                 onClick={onCartOpen}
-                className="relative text-sm font-medium tracking-wide transition-opacity hover:opacity-60"
+                className="hidden md:block text-sm font-medium tracking-wide transition-opacity hover:opacity-60"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
+                BAG
               </button>
+              {/* Mobile Menu Button */}
+              <button 
+                onClick={onMobileMenuOpen}
+                className="md:hidden p-2 rounded-full transition-all duration-200 hover:opacity-60"
+                aria-label="Open menu"
+              >
+                <MenuIcon />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Secondary Navigation - Desktop Only */}
+        <div className={`hidden md:block border-t ${isDark ? 'border-white/10' : 'border-black/10'}`}>
+          <div className="max-w-screen-2xl mx-auto px-6">
+            <div className="flex items-center justify-center gap-8 overflow-x-auto scrollbar-hide py-3">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  className="text-xs font-medium tracking-wider whitespace-nowrap transition-opacity hover:opacity-60"
+                >
+                  {category}
+                </button>
+              ))}
             </div>
           </div>
         </div>
@@ -91,7 +119,7 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen }: Navigati
       {activeMenu && (
         <div
           onMouseLeave={() => setActiveMenu(null)}
-          className={`fixed top-[80px] left-0 right-0 z-40 transition-all duration-300 ${
+          className={`fixed top-[120px] left-0 right-0 z-40 transition-all duration-300 ${
             isDark ? 'bg-black/90 text-white' : 'bg-white/90 text-black'
           } backdrop-blur-md animate-slide-down`}
         >
