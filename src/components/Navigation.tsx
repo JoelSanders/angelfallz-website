@@ -50,12 +50,12 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
             </div>
 
             {/* Center Menu with Logo */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center justify-center gap-8">
               {/* Shop Button */}
               <button
                 onMouseEnter={() => setActiveMenu('SHOP')}
                 onClick={handleShopClick}
-                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
+                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 flex items-center ${
                   activeMenu === 'SHOP' ? 'opacity-60' : ''
                 }`}
               >
@@ -65,14 +65,13 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
               {/* Logo */}
               <button
                 onClick={() => navigate('/')}
-                className="transition-all duration-300 hover:opacity-60 flex items-center justify-center relative"
+                className="transition-all duration-300 hover:opacity-60 flex items-center justify-center relative -my-4"
                 aria-label="Home"
               >
                 <img 
                   src={isDark ? '/1A MASTER LOGOS 4 DEV-17 WHITE.png' : '/1A MASTER LOGOS 4 DEV-17 TRANSPARENT.png'}
                   alt="ANGELFALLZ"
-                  className="h-20 w-auto transition-opacity duration-300 relative z-10"
-                  style={{ marginTop: '-16px', marginBottom: '-16px' }}
+                  className="h-20 w-auto transition-opacity duration-300"
                 />
               </button>
 
@@ -80,7 +79,7 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
               <button
                 onMouseEnter={() => setActiveMenu('ABOUT')}
                 onClick={() => navigate('/about')}
-                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
+                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 flex items-center ${
                   activeMenu === 'ABOUT' ? 'opacity-60' : ''
                 }`}
               >
