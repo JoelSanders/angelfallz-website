@@ -65,13 +65,14 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
               {/* Logo */}
               <button
                 onClick={() => navigate('/')}
-                className="transition-all duration-300 hover:opacity-60 flex items-center justify-center"
+                className="transition-all duration-300 hover:opacity-60 flex items-center justify-center relative"
                 aria-label="Home"
               >
                 <img 
                   src={isDark ? '/1A MASTER LOGOS 4 DEV-17 WHITE.png' : '/1A MASTER LOGOS 4 DEV-17 TRANSPARENT.png'}
                   alt="ANGELFALLZ"
-                  className="h-16 w-auto transition-opacity duration-300"
+                  className="h-20 w-auto transition-opacity duration-300 relative z-10"
+                  style={{ marginTop: '-8px', marginBottom: '-8px' }}
                 />
               </button>
 
