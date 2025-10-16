@@ -25,7 +25,6 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
     }, 100);
   };
 
-  const menuItems = ['SHOP', 'ABOUT'];
   const categories = [
     'NEW ARRIVALS',
     'TEES',
@@ -50,23 +49,42 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
               </h1>
             </div>
 
-            {/* Center Menu */}
+            {/* Center Menu with Logo */}
             <div className="hidden md:flex items-center gap-8">
-              {menuItems.map((item) => (
-                <button
-                  key={item}
-                  onMouseEnter={() => setActiveMenu(item)}
-                  onClick={() => {
-                    if (item === 'SHOP') handleShopClick();
-                    if (item === 'ABOUT') navigate('/about');
-                  }}
-                  className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
-                    activeMenu === item ? 'opacity-60' : ''
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
+              {/* Shop Button */}
+              <button
+                onMouseEnter={() => setActiveMenu('SHOP')}
+                onClick={handleShopClick}
+                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
+                  activeMenu === 'SHOP' ? 'opacity-60' : ''
+                }`}
+              >
+                SHOP
+              </button>
+
+              {/* Logo */}
+              <button
+                onClick={() => navigate('/')}
+                className="transition-all duration-300 hover:opacity-60 flex items-center justify-center"
+                aria-label="Home"
+              >
+                <img 
+                  src={isDark ? '/1A MASTER LOGOS 4 DEV-17 WHITE.png' : '/1A MASTER LOGOS 4 DEV-17 TRANSPARENT.png'}
+                  alt="ANGELFALLZ"
+                  className="h-12 w-auto transition-opacity duration-300"
+                />
+              </button>
+
+              {/* About Button */}
+              <button
+                onMouseEnter={() => setActiveMenu('ABOUT')}
+                onClick={() => navigate('/about')}
+                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
+                  activeMenu === 'ABOUT' ? 'opacity-60' : ''
+                }`}
+              >
+                ABOUT
+              </button>
             </div>
 
             {/* Right Side Actions */}
