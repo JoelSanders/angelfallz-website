@@ -32,9 +32,9 @@ function App() {
   const HomePage = () => (
     <>
       {/* Hero Section */}
-      <section className="relative h-screen overflow-hidden">
+      <section className="relative h-screen overflow-hidden touch-pan-y">
         {/* Animated Background - pointer-events-none to allow scrolling on mobile */}
-        <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 z-0 w-full h-full pointer-events-none touch-none">
           <LiquidEther
             colors={isDark ? darkColors : lightColors}
             mouseForce={28}
@@ -51,23 +51,22 @@ function App() {
             takeoverDuration={0.25}
             autoResumeDelay={3000}
             autoRampDuration={0.6}
-            className="opacity-40"
+            className="opacity-40 w-full h-full"
           />
         </div>
 
         {/* 3D Model */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-          <div className="w-full h-full max-w-4xl pointer-events-auto">
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none touch-none">
+          <div className="w-full h-full md:max-w-4xl pointer-events-none touch-none">
             <ModelViewer isDark={isDark} />
           </div>
         </div>
 
         {/* Bottom Content - Branding and Social Links */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 pb-12 pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 z-20 pb-8 md:pb-12 pointer-events-none">
           <div className="max-w-screen-2xl mx-auto px-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
               <div className="text-center md:text-left">
-                <h4 className="text-2xl md:text-3xl font-bold mb-2 tracking-wider">ANGELFALLZ</h4>
                 <p className={`text-sm md:text-base ${isDark ? 'text-white/70' : 'text-black/70'}`}>
                   Modern streetwear for the next generation
                 </p>

@@ -5,11 +5,16 @@ import * as THREE from 'three';
 
 interface Model3DProps {
   url: string;
+  isMobile?: boolean;
 }
 
-export default function Model3D({ url }: Model3DProps) {
+export default function Model3D({ url, isMobile = false }: Model3DProps) {
   const groupRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF(url);
+
+  // Adjust scale and position based on mobile
+  const scale = isMobile ? 0.9 : 1.5;
+  const yPosition = isMobile ? -1.0 : -1.4;
 
   // Slow rotation animation
   useFrame(() => {
@@ -20,7 +25,7 @@ export default function Model3D({ url }: Model3DProps) {
 
   return (
     <group ref={groupRef}>
-      <primitive object={scene} scale={1.5} position={[0, -1.3, 0]} />
+      <primitive object={scene} scale={scale} position={[0, yPosition, 0]} />
     </group>
   );
 }
