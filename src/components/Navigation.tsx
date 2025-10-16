@@ -71,7 +71,7 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
                 <img 
                   src={isDark ? '/1A MASTER LOGOS 4 DEV-17 WHITE.png' : '/1A MASTER LOGOS 4 DEV-17 TRANSPARENT.png'}
                   alt="ANGELFALLZ"
-                  className="h-12 w-auto transition-opacity duration-300"
+                  className="h-16 w-auto transition-opacity duration-300"
                 />
               </button>
 
