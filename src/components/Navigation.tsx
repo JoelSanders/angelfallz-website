@@ -37,7 +37,7 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         isDark ? 'bg-black/80 text-white' : 'bg-white/80 text-black'
       } backdrop-blur-md`}>
-        <div className="max-w-screen-2xl mx-auto px-6 py-4">
+        <div className="max-w-screen-2xl mx-auto px-6 py-2">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex-shrink-0">
@@ -72,7 +72,7 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
                   src={isDark ? '/1A MASTER LOGOS 4 DEV-17 WHITE.png' : '/1A MASTER LOGOS 4 DEV-17 TRANSPARENT.png'}
                   alt="ANGELFALLZ"
                   className="h-20 w-auto transition-opacity duration-300 relative z-10"
-                  style={{ marginTop: '-8px', marginBottom: '-8px' }}
+                  style={{ marginTop: '-16px', marginBottom: '-16px' }}
                 />
               </button>
 
@@ -126,7 +126,7 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
         {/* Secondary Navigation - Desktop Only */}
         <div className={`hidden md:block border-t ${isDark ? 'border-white/10' : 'border-black/10'}`}>
           <div className="max-w-screen-2xl mx-auto px-6">
-            <div className="flex items-center justify-center gap-8 overflow-x-auto scrollbar-hide py-3">
+            <div className="flex items-center justify-center gap-8 overflow-x-auto scrollbar-hide py-2">
               {categories.map((category) => (
                 <button
                   key={category}
