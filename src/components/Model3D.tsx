@@ -13,8 +13,8 @@ export default function Model3D({ url, isMobile = false }: Model3DProps) {
   const { scene } = useGLTF(url);
 
   // Adjust scale and position based on mobile
-  const scale = isMobile ? 0.9 : 1.5;
-  const yPosition = isMobile ? -1.0 : -1.4;
+  const scale = isMobile ? 1.2 : 1.5;
+  const yPosition = isMobile ? -1.2 : -1.4;
 
   // Slow rotation animation
   useFrame(() => {
