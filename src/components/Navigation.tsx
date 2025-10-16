@@ -50,14 +50,15 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
             </div>
 
             {/* Center Menu with Logo */}
-            <div className="hidden md:flex items-center justify-center gap-8 h-full">
+            <div className="hidden md:flex items-center justify-center gap-8">
               {/* Shop Button */}
               <button
                 onMouseEnter={() => setActiveMenu('SHOP')}
                 onClick={handleShopClick}
-                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 h-full flex items-center ${
+                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
                   activeMenu === 'SHOP' ? 'opacity-60' : ''
                 }`}
+                style={{ paddingTop: '2px' }}
               >
                 SHOP
               </button>
@@ -65,7 +66,7 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
               {/* Logo */}
               <button
                 onClick={() => navigate('/')}
-                className="transition-all duration-300 hover:opacity-60 h-full flex items-center justify-center"
+                className="transition-all duration-300 hover:opacity-60 flex items-center justify-center"
                 aria-label="Home"
               >
                 <img 
@@ -79,9 +80,10 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
               <button
                 onMouseEnter={() => setActiveMenu('ABOUT')}
                 onClick={() => navigate('/about')}
-                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 h-full flex items-center ${
+                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${
                   activeMenu === 'ABOUT' ? 'opacity-60' : ''
                 }`}
+                style={{ paddingTop: '2px' }}
               >
                 ABOUT
               </button>
