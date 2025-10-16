@@ -42,11 +42,23 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
           <div className="flex items-center justify-between md:hidden">
             <h1 
               onClick={() => navigate('/')}
-              className="text-2xl font-bold tracking-wider animate-fade-in cursor-pointer hover:opacity-60 transition-opacity"
+              className="text-lg font-bold tracking-wider animate-fade-in cursor-pointer hover:opacity-60 transition-opacity"
             >
               ANGELFALLZ
             </h1>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              {/* Mobile Logo */}
+              <button
+                onClick={() => navigate('/')}
+                className="transition-all duration-300 hover:opacity-60 flex items-center justify-center"
+                aria-label="Home"
+              >
+                <img 
+                  src={isDark ? '/1A MASTER LOGOS 4 DEV-17 WHITE.png' : '/1A MASTER LOGOS 4 DEV-17 TRANSPARENT.png'}
+                  alt="ANGELFALLZ"
+                  className="h-12 w-auto transition-opacity duration-300"
+                />
+              </button>
               <button 
                 onClick={toggleTheme}
                 className="p-2 rounded-full transition-all duration-200 hover:opacity-60"
