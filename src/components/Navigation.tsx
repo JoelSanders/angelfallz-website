@@ -50,12 +50,12 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
             </div>
 
             {/* Center Menu with Logo */}
-            <div className="hidden md:flex items-center justify-center gap-8">
+            <div className="hidden md:flex items-center justify-center gap-8 h-full">
               {/* Shop Button */}
               <button
                 onMouseEnter={() => setActiveMenu('SHOP')}
                 onClick={handleShopClick}
-                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 flex items-center ${
+                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 h-full flex items-center ${
                   activeMenu === 'SHOP' ? 'opacity-60' : ''
                 }`}
               >
@@ -63,25 +63,23 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
               </button>
 
               {/* Logo */}
-              <div className="flex items-center">
-                <button
-                  onClick={() => navigate('/')}
-                  className="transition-all duration-300 hover:opacity-60 flex items-center justify-center"
-                  aria-label="Home"
-                >
-                  <img 
-                    src={isDark ? '/1A MASTER LOGOS 4 DEV-17 WHITE.png' : '/1A MASTER LOGOS 4 DEV-17 TRANSPARENT.png'}
-                    alt="ANGELFALLZ"
-                    className="h-16 w-auto transition-opacity duration-300"
-                  />
-                </button>
-              </div>
+              <button
+                onClick={() => navigate('/')}
+                className="transition-all duration-300 hover:opacity-60 h-full flex items-center justify-center"
+                aria-label="Home"
+              >
+                <img 
+                  src={isDark ? '/1A MASTER LOGOS 4 DEV-17 WHITE.png' : '/1A MASTER LOGOS 4 DEV-17 TRANSPARENT.png'}
+                  alt="ANGELFALLZ"
+                  className="h-20 w-auto transition-opacity duration-300"
+                />
+              </button>
 
               {/* About Button */}
               <button
                 onMouseEnter={() => setActiveMenu('ABOUT')}
                 onClick={() => navigate('/about')}
-                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 flex items-center ${
+                className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 h-full flex items-center ${
                   activeMenu === 'ABOUT' ? 'opacity-60' : ''
                 }`}
               >
