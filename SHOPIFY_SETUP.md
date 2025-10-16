@@ -218,3 +218,4 @@ Consider adding:
 - Related products
 - Email marketing integration
 
+

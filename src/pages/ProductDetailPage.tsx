@@ -1,158 +1,14 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { shopifyService } from '../services/shopify';
-import { useCart } from '../context/CartContext';
-import type { ShopifyProduct, ShopifyVariant } from '../types/shopify';
+import { useState } from 'react';
 
 interface ProductDetailPageProps {
   isDark: boolean;
 }
 
 export default function ProductDetailPage({ isDark }: ProductDetailPageProps) {
-  const { handle } = useParams<{ handle: string }>();
-  const [product, setProduct] = useState<ShopifyProduct | null>(null);
-  const [selectedVariant, setSelectedVariant] = useState<ShopifyVariant | null>(null);
+  const [selectedSize, setSelectedSize] = useState('M');
   const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdding, setIsAdding] = useState(false);
-  const { addToCart } = useCart();
 
-  useEffect(() => {
-    if (handle) {
-      loadProduct(handle);
-    }
-  }, [handle]);
-
-  const loadProduct = async (productHandle: string) => {
-    setIsLoading(true);
-    try {
-      const fetchedProduct = await shopifyService.getProductByHandle(productHandle);
-      if (fetchedProduct) {
-        setProduct(fetchedProduct);
-        // Select first available variant
-        const firstAvailable = fetchedProduct.variants.find(v => v.availableForSale) || fetchedProduct.variants[0];
-        setSelectedVariant(firstAvailable);
-      }
-    } catch (error) {
-      console.error('Error loading product:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleAddToCart = async () => {
-    if (!product || !selectedVariant || isAdding) return;
-    
-    setIsAdding(true);
-    try {
-      await addToCart(product, selectedVariant, quantity);
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-    } finally {
-      setIsAdding(false);
-    }
-  };
-
-  const formatPrice = (amount: string, currencyCode: string) => {
-    const price = parseFloat(amount);
-    return new Intl.NumberFormat('en-GB', {
-      style: 'currency',
-      currency: currencyCode,
-    }).format(price);
-  };
-
-  // Get unique option names (e.g., Size, Color)
-  const getOptionNames = () => {
-    if (!product) return [];
-    const optionNames = new Set<string>();
-    product.variants.forEach(variant => {
-      variant.selectedOptions.forEach(option => {
-        optionNames.add(option.name);
-      });
-    });
-    return Array.from(optionNames);
-  };
-
-  // Get unique values for an option (e.g., all sizes)
-  const getOptionValues = (optionName: string) => {
-    if (!product) return [];
-    const values = new Set<string>();
-    product.variants.forEach(variant => {
-      const option = variant.selectedOptions.find(o => o.name === optionName);
-      if (option) {
-        values.add(option.value);
-      }
-    });
-    return Array.from(values);
-  };
-
-  // Get selected value for an option
-  const getSelectedOptionValue = (optionName: string) => {
-    if (!selectedVariant) return null;
-    const option = selectedVariant.selectedOptions.find(o => o.name === optionName);
-    return option?.value || null;
-  };
-
-  // Handle option selection
-  const handleOptionChange = (optionName: string, value: string) => {
-    if (!product || !selectedVariant) return;
-
-    // Create new selected options array
-    const newSelectedOptions = selectedVariant.selectedOptions.map(option =>
-      option.name === optionName ? { ...option, value } : option
-    );
-
-    // Find variant that matches all selected options
-    const newVariant = product.variants.find(variant =>
-      newSelectedOptions.every(selectedOption =>
-        variant.selectedOptions.some(
-          variantOption =>
-            variantOption.name === selectedOption.name &&
-            variantOption.value === selectedOption.value
-        )
-      )
-    );
-
-    if (newVariant) {
-      setSelectedVariant(newVariant);
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <div className={`min-h-screen pt-32 pb-20 flex items-center justify-center ${
-        isDark ? 'bg-black text-white' : 'bg-white text-black'
-      }`}>
-        <div className="animate-pulse text-2xl">Loading...</div>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className={`min-h-screen pt-32 pb-20 flex items-center justify-center ${
-        isDark ? 'bg-black text-white' : 'bg-white text-black'
-      }`}>
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Product not found</h2>
-          <Link
-            to="/shop"
-            className={`px-6 py-3 text-sm font-bold tracking-wide transition-all duration-200 inline-block ${
-              isDark
-                ? 'bg-white text-black hover:bg-yellow-400'
-                : 'bg-black text-white hover:bg-yellow-400 hover:text-black'
-            }`}
-          >
-            CONTINUE SHOPPING
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const currentImage = product.images[selectedImage] || product.images[0];
-  const isNew = product.tags.some(tag => tag.toLowerCase() === 'new');
+  const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
   return (
     <div className={`min-h-screen pt-32 pb-20 transition-colors duration-500 ${
@@ -163,121 +19,84 @@ export default function ProductDetailPage({ isDark }: ProductDetailPageProps) {
         <div className={`text-sm mb-8 flex items-center gap-2 ${
           isDark ? 'text-white/60' : 'text-black/60'
         }`}>
-          <Link to="/" className="hover:opacity-60 transition-opacity">HOME</Link>
+          <a href="#" className="hover:opacity-60 transition-opacity">HOME</a>
           <span>/</span>
-          <Link to="/shop" className="hover:opacity-60 transition-opacity">SHOP</Link>
+          <a href="#" className="hover:opacity-60 transition-opacity">SHOP</a>
           <span>/</span>
-          <span className={isDark ? 'text-white' : 'text-black'}>{product.title.toUpperCase()}</span>
+          <span className={isDark ? 'text-white' : 'text-black'}>REVERSIBLE PUFFER JACKET</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Product Images */}
           <div className="space-y-4">
-            <div className={`aspect-square overflow-hidden ${
+            <div className={`aspect-square ${
               isDark ? 'bg-white/5' : 'bg-black/5'
-            }`}>
-              {currentImage ? (
-                <img
-                  src={currentImage.src}
-                  alt={currentImage.altText || product.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className={`text-8xl font-bold ${
-                    isDark ? 'text-white/10' : 'text-black/10'
-                  }`}>
-                    AF
-                  </div>
-                </div>
-              )}
+            } flex items-center justify-center`}>
+              <div className={`text-8xl font-bold ${
+                isDark ? 'text-white/10' : 'text-black/10'
+              }`}>
+                AF
+              </div>
             </div>
             
             {/* Thumbnail Gallery */}
-            {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-4">
-                {product.images.map((image, index) => (
-                  <button
-                    key={image.id}
-                    onClick={() => setSelectedImage(index)}
-                    className={`aspect-square cursor-pointer overflow-hidden transition-all ${
-                      selectedImage === index
-                        ? isDark
-                          ? 'ring-2 ring-white'
-                          : 'ring-2 ring-black'
-                        : isDark
-                          ? 'opacity-60 hover:opacity-100'
-                          : 'opacity-60 hover:opacity-100'
-                    }`}
-                  >
-                    <img
-                      src={image.src}
-                      alt={image.altText || `${product.title} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div
+                  key={i}
+                  className={`aspect-square cursor-pointer ${
+                    isDark ? 'bg-white/5 hover:bg-white/10' : 'bg-black/5 hover:bg-black/10'
+                  } transition-colors`}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Product Info */}
           <div className="space-y-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <h1 className="text-4xl font-bold tracking-tight">{product.title.toUpperCase()}</h1>
-                {isNew && (
-                  <span className="bg-yellow-400 text-black px-3 py-1 text-xs font-bold">NEW</span>
-                )}
+                <h1 className="text-4xl font-bold tracking-tight">REVERSIBLE PUFFER JACKET</h1>
+                <span className="bg-yellow-400 text-black px-3 py-1 text-xs font-bold">NEW</span>
               </div>
-              {selectedVariant && (
-                <p className="text-2xl font-medium mb-4">
-                  {formatPrice(selectedVariant.priceV2.amount, selectedVariant.priceV2.currencyCode)}
-                </p>
-              )}
-              {product.description && (
-                <p className={`text-base leading-relaxed ${
-                  isDark ? 'text-white/70' : 'text-black/70'
-                }`}>
-                  {product.description}
-                </p>
-              )}
+              <p className="text-2xl font-medium mb-4">£175.00 GBP</p>
+              <p className={`text-base leading-relaxed ${
+                isDark ? 'text-white/70' : 'text-black/70'
+              }`}>
+                Stay warm and stylish with our reversible puffer jacket. Features two looks in one with contrasting colors. Premium insulation keeps you cozy in any weather. Modern fit with adjustable hood.
+              </p>
             </div>
 
-            {/* Variant Options (Size, Color, etc.) */}
-            {getOptionNames().map((optionName) => {
-              const values = getOptionValues(optionName);
-              const selectedValue = getSelectedOptionValue(optionName);
-              
-              if (values.length <= 1) return null;
-
-              return (
-                <div key={optionName}>
-                  <label className="text-sm font-medium tracking-wide mb-4 block">
-                    {optionName.toUpperCase()}
-                  </label>
-                  <div className="flex flex-wrap gap-3">
-                    {values.map((value) => (
-                      <button
-                        key={value}
-                        onClick={() => handleOptionChange(optionName, value)}
-                        className={`px-6 py-3 text-sm font-medium transition-all duration-200 ${
-                          selectedValue === value
-                            ? isDark
-                              ? 'bg-white text-black'
-                              : 'bg-black text-white'
-                            : isDark
-                              ? 'bg-white/5 hover:bg-white/10'
-                              : 'bg-black/5 hover:bg-black/10'
-                        }`}
-                      >
-                        {value}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+            {/* Size Selection */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <label className="text-sm font-medium tracking-wide">SIZE</label>
+                <button className={`text-xs underline ${
+                  isDark ? 'text-white/60 hover:text-white' : 'text-black/60 hover:text-black'
+                } transition-colors`}>
+                  SIZE GUIDE
+                </button>
+              </div>
+              <div className="grid grid-cols-6 gap-3">
+                {sizes.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={`py-3 text-sm font-medium transition-all duration-200 ${
+                      selectedSize === size
+                        ? isDark
+                          ? 'bg-white text-black'
+                          : 'bg-black text-white'
+                        : isDark
+                          ? 'bg-white/5 hover:bg-white/10'
+                          : 'bg-black/5 hover:bg-black/10'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Quantity */}
             <div>
@@ -305,24 +124,13 @@ export default function ProductDetailPage({ isDark }: ProductDetailPageProps) {
               </div>
             </div>
 
-            {/* Availability Status */}
-            {selectedVariant && !selectedVariant.availableForSale && (
-              <div className="bg-red-500/10 border border-red-500/20 px-4 py-3 text-red-500 text-sm">
-                This variant is currently out of stock
-              </div>
-            )}
-
             {/* Add to Cart */}
-            <button
-              onClick={handleAddToCart}
-              disabled={isAdding || !selectedVariant?.availableForSale}
-              className={`w-full py-4 text-sm font-bold tracking-wide transition-all duration-200 ${
-                isDark
-                  ? 'bg-white text-black hover:bg-yellow-400'
-                  : 'bg-black text-white hover:bg-yellow-400 hover:text-black'
-              } disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              {isAdding ? 'ADDING...' : selectedVariant?.availableForSale ? 'ADD TO BAG' : 'OUT OF STOCK'}
+            <button className={`w-full py-4 text-sm font-bold tracking-wide transition-all duration-200 ${
+              isDark
+                ? 'bg-white text-black hover:bg-yellow-400'
+                : 'bg-black text-white hover:bg-yellow-400 hover:text-black'
+            }`}>
+              ADD TO BAG
             </button>
 
             {/* Product Details */}
@@ -338,11 +146,12 @@ export default function ProductDetailPage({ isDark }: ProductDetailPageProps) {
                 </summary>
                 <div className={`mt-4 text-sm ${isDark ? 'text-white/70' : 'text-black/70'}`}>
                   <ul className="list-disc list-inside space-y-2">
-                    {product.productType && <li>Type: {product.productType}</li>}
-                    {product.vendor && <li>Brand: {product.vendor}</li>}
-                    {product.tags.length > 0 && (
-                      <li>Tags: {product.tags.join(', ')}</li>
-                    )}
+                    <li>Reversible design with two color options</li>
+                    <li>Premium synthetic insulation</li>
+                    <li>Water-resistant outer shell</li>
+                    <li>Adjustable drawstring hood</li>
+                    <li>Multiple zip pockets</li>
+                    <li>Regular fit</li>
                   </ul>
                 </div>
               </details>

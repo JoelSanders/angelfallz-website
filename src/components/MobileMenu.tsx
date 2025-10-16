@@ -26,13 +26,6 @@ const StoreIcon = () => (
   </svg>
 );
 
-const CollectionIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-    <rect x="2" y="4" width="20" height="16" rx="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
 const InfoIcon = () => (
   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
     <circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round" />
@@ -40,22 +33,9 @@ const InfoIcon = () => (
   </svg>
 );
 
-const SparkleIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v3m0 12v3m9-9h-3M6 12H3m15.364-6.364l-2.121 2.121M8.757 15.243l-2.121 2.121m12.728 0l-2.121-2.121M8.757 8.757L6.636 6.636" />
-  </svg>
-);
-
-const TShirtIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M7 6L3 10v11h18V10l-4-4M7 6l2-3h6l2 3M7 6h10" />
-  </svg>
-);
-
-const HoodieIcon = () => (
-  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M6 6L3 10v11h4V14h10v7h4V10l-3-4M6 6l3-3h6l3 3M6 6h12" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M8 6v5M16 6v5" />
+const DocumentIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
   </svg>
 );
 
@@ -65,6 +45,16 @@ export default function MobileMenu({ isDark, isOpen, onClose, onCartOpen }: Mobi
   const handleNavigation = (path: string) => {
     navigate(path);
     onClose();
+  };
+
+  const handleShopClick = () => {
+    // Navigate to home and scroll to shop section
+    navigate('/');
+    onClose();
+    // Wait for navigation and menu close animation
+    setTimeout(() => {
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    }, 300);
   };
 
   const handleCartClick = () => {
@@ -104,7 +94,20 @@ export default function MobileMenu({ isDark, isOpen, onClose, onCartOpen }: Mobi
 
         {/* Menu Items */}
         <div className="flex flex-col p-6 space-y-1">
-          {/* Cart Button */}
+          {/* Shop Button */}
+          <button
+            onClick={handleShopClick}
+            className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg text-base font-medium tracking-wide transition-all duration-200 ${
+              isDark 
+                ? 'hover:bg-white/5 active:bg-white/10' 
+                : 'hover:bg-black/5 active:bg-black/10'
+            }`}
+          >
+            <StoreIcon />
+            <span>SHOP</span>
+          </button>
+
+          {/* Bag Button */}
           <button
             onClick={handleCartClick}
             className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg text-base font-medium tracking-wide transition-all duration-200 ${
@@ -117,33 +120,7 @@ export default function MobileMenu({ isDark, isOpen, onClose, onCartOpen }: Mobi
             <span>BAG</span>
           </button>
 
-          {/* Shop Button */}
-          <button
-            onClick={() => handleNavigation('/shop')}
-            className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg text-base font-medium tracking-wide transition-all duration-200 ${
-              isDark 
-                ? 'hover:bg-white/5 active:bg-white/10' 
-                : 'hover:bg-black/5 active:bg-black/10'
-            }`}
-          >
-            <StoreIcon />
-            <span>SHOP</span>
-          </button>
-
-          {/* Collections Button */}
-          <button
-            onClick={() => handleNavigation('/collections')}
-            className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg text-base font-medium tracking-wide transition-all duration-200 ${
-              isDark 
-                ? 'hover:bg-white/5 active:bg-white/10' 
-                : 'hover:bg-black/5 active:bg-black/10'
-            }`}
-          >
-            <CollectionIcon />
-            <span>COLLECTIONS</span>
-          </button>
-
-          {/* About Button */}
+          {/* About/Contact Button */}
           <button
             onClick={() => handleNavigation('/about')}
             className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg text-base font-medium tracking-wide transition-all duration-200 ${
@@ -153,89 +130,37 @@ export default function MobileMenu({ isDark, isOpen, onClose, onCartOpen }: Mobi
             }`}
           >
             <InfoIcon />
-            <span>ABOUT</span>
+            <span>ABOUT/CONTACT</span>
           </button>
 
-          {/* Divider */}
-          <div className={`my-4 border-t ${isDark ? 'border-white/10' : 'border-black/10'}`} />
-
-          {/* Categories */}
-          <div className="px-4 py-2">
-            <h3 className={`text-xs font-semibold tracking-wider mb-3 ${
-              isDark ? 'text-white/50' : 'text-black/50'
-            }`}>
-              CATEGORIES
-            </h3>
-            <div className="space-y-1">
-              <button
-                onClick={() => handleNavigation('/shop')}
-                className={`w-full flex items-center gap-3 px-2 py-3 rounded-lg text-sm tracking-wide transition-all duration-200 ${
-                  isDark 
-                    ? 'hover:bg-white/5 active:bg-white/10' 
-                    : 'hover:bg-black/5 active:bg-black/10'
-                }`}
-              >
-                <SparkleIcon />
-                <span>NEW ARRIVALS</span>
-              </button>
-              <button
-                onClick={() => handleNavigation('/shop')}
-                className={`w-full flex items-center gap-3 px-2 py-3 rounded-lg text-sm tracking-wide transition-all duration-200 ${
-                  isDark 
-                    ? 'hover:bg-white/5 active:bg-white/10' 
-                    : 'hover:bg-black/5 active:bg-black/10'
-                }`}
-              >
-                <TShirtIcon />
-                <span>TEES</span>
-              </button>
-              <button
-                onClick={() => handleNavigation('/shop')}
-                className={`w-full flex items-center gap-3 px-2 py-3 rounded-lg text-sm tracking-wide transition-all duration-200 ${
-                  isDark 
-                    ? 'hover:bg-white/5 active:bg-white/10' 
-                    : 'hover:bg-black/5 active:bg-black/10'
-                }`}
-              >
-                <HoodieIcon />
-                <span>SWEATS</span>
-              </button>
-            </div>
-          </div>
+          {/* Terms & Conditions Button */}
+          <button
+            onClick={() => handleNavigation('/terms')}
+            className={`w-full flex items-center gap-3 px-4 py-4 rounded-lg text-base font-medium tracking-wide transition-all duration-200 ${
+              isDark 
+                ? 'hover:bg-white/5 active:bg-white/10' 
+                : 'hover:bg-black/5 active:bg-black/10'
+            }`}
+          >
+            <DocumentIcon />
+            <span>T&Cs</span>
+          </button>
         </div>
 
         {/* Footer - Social Links */}
         <div className={`absolute bottom-0 left-0 right-0 p-6 border-t ${
           isDark ? 'border-white/10' : 'border-black/10'
         }`}>
-          <div className="flex gap-4">
-            <a 
-              href="https://www.instagram.com/angelfallz/" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`text-sm hover:opacity-60 transition-opacity ${
-                isDark ? 'text-white/90' : 'text-black/90'
-              }`}
-            >
-              Instagram
-            </a>
-            <a 
-              href="#" 
-              className={`text-sm hover:opacity-60 transition-opacity ${
-                isDark ? 'text-white/90' : 'text-black/90'
-              }`}
-            >
-              Twitter
-            </a>
-            <a 
-              href="#" 
-              className={`text-sm hover:opacity-60 transition-opacity ${
-                isDark ? 'text-white/90' : 'text-black/90'
-              }`}
-            >
-              TikTok
-            </a>
-          </div>
+          <a 
+            href="https://www.instagram.com/angelfallz/" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`text-sm hover:opacity-60 transition-opacity ${
+              isDark ? 'text-white/90' : 'text-black/90'
+            }`}
+          >
+            Instagram
+          </a>
         </div>
       </div>
     </>

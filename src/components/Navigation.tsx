@@ -18,7 +18,14 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const menuItems = ['SHOP', 'COLLECTIONS', 'ABOUT'];
+  const handleShopClick = () => {
+    navigate('/');
+    setTimeout(() => {
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    }, 100);
+  };
+
+  const menuItems = ['SHOP', 'ABOUT'];
   const categories = [
     'NEW ARRIVALS',
     'TEES',
@@ -50,8 +57,7 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
                   key={item}
                   onMouseEnter={() => setActiveMenu(item)}
                   onClick={() => {
-                    if (item === 'SHOP') navigate('/shop');
-                    if (item === 'COLLECTIONS') navigate('/collections');
+                    if (item === 'SHOP') handleShopClick();
                     if (item === 'ABOUT') navigate('/about');
                   }}
                   className={`text-sm font-medium tracking-wide transition-all duration-200 hover:opacity-60 ${

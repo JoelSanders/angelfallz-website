@@ -10,7 +10,7 @@ import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 
 function App() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false); // Default to light mode
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -33,8 +33,8 @@ function App() {
     <>
       {/* Hero Section */}
       <section className="relative h-screen overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 z-0">
+        {/* Animated Background - pointer-events-none to allow scrolling on mobile */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <LiquidEther
             colors={isDark ? darkColors : lightColors}
             mouseForce={28}
@@ -56,8 +56,8 @@ function App() {
         </div>
 
         {/* 3D Model */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center">
-          <div className="w-full h-full max-w-4xl">
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+          <div className="w-full h-full max-w-4xl pointer-events-auto">
             <ModelViewer isDark={isDark} />
           </div>
         </div>
@@ -83,27 +83,14 @@ function App() {
                 >
                   Instagram
                 </a>
-                <a 
-                  href="#" 
-                  className={`text-sm md:text-base hover:opacity-60 transition-opacity ${
-                    isDark ? 'text-white/90' : 'text-black/90'
-                  }`}
-                >
-                  Twitter
-                </a>
-                <a 
-                  href="#" 
-                  className={`text-sm md:text-base hover:opacity-60 transition-opacity ${
-                    isDark ? 'text-white/90' : 'text-black/90'
-                  }`}
-                >
-                  TikTok
-                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Shop Section */}
+      <ShopPage isDark={isDark} />
     </>
   );
 
@@ -139,10 +126,9 @@ function App() {
           {/* Routes */}
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/shop" element={<ShopPage isDark={isDark} />} />
             <Route path="/product/:handle" element={<ProductDetailPage isDark={isDark} />} />
-            <Route path="/collections" element={<div className="pt-32 pb-20 text-center">Collections page coming soon</div>} />
-            <Route path="/about" element={<div className="pt-32 pb-20 text-center">About page coming soon</div>} />
+            <Route path="/about" element={<div className="pt-32 pb-20 text-center">About/Contact page coming soon</div>} />
+            <Route path="/terms" element={<div className="pt-32 pb-20 text-center">Terms & Conditions page coming soon</div>} />
           </Routes>
         </div>
       </CartProvider>

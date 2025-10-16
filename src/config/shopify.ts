@@ -12,3 +12,4 @@ export const isShopifyConfigured = (): boolean => {
             shopifyConfig.storeDomain !== 'your-store.myshopify.com');
 };
 
+

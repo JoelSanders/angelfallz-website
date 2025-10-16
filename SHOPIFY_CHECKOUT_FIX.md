@@ -171,3 +171,4 @@ If you just want to test the frontend cart functionality without dealing with ch
 
 You can temporarily disable the checkout button or show a mock success message. But for a real store, you MUST complete the Shopify setup above.
 
+
