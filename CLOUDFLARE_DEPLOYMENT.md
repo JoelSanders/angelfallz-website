@@ -26,7 +26,26 @@ dist
 ```
 
 ### Environment Variables
-No environment variables are required for this static site.
+
+**IMPORTANT:** You MUST configure these environment variables in CloudFlare Pages for the Shopify integration to work:
+
+1. Go to your CloudFlare Pages project
+2. Navigate to **Settings** → **Environment variables**
+3. Add the following variables for **Production** and **Preview**:
+
+| Variable Name | Description | Example |
+|--------------|-------------|---------|
+| `VITE_SHOPIFY_STORE_DOMAIN` | Your Shopify store domain | `your-store.myshopify.com` |
+| `VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN` | Storefront API access token | `abc123...` |
+
+**How to get these values:**
+1. Log into your Shopify Admin
+2. Go to **Settings** → **Apps and sales channels**
+3. Click **Develop apps** → Create or select your app
+4. Copy the **Storefront API access token**
+5. Your store domain is in your Shopify URL
+
+⚠️ **Without these environment variables, the shop pages will not load products!**
 
 ## 🚀 Alternative: Deploy via Wrangler CLI
 
@@ -56,12 +75,33 @@ npx wrangler pages deploy dist --project-name=angelfallz-website
 
 ## 🔧 Troubleshooting
 
+### Build Failures
+
 If deployment fails:
 
 1. **Check build output:** Ensure the `dist` folder is created
 2. **Verify output directory:** Make sure "dist" is specified in CloudFlare settings
 3. **Check node version:** Ensure Node 18+ is being used
 4. **Clear cache:** In CloudFlare Pages, try clearing build cache
+
+### Products Not Loading / 404 Errors
+
+If you see 404 errors or products not loading on the deployed site:
+
+1. **Environment Variables Not Set:**
+   - Go to CloudFlare Pages → Settings → Environment variables
+   - Add `VITE_SHOPIFY_STORE_DOMAIN` and `VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN`
+   - Redeploy the site after adding variables
+
+2. **SPA Routing Issues:**
+   - The `public/_redirects` file handles client-side routing
+   - Ensure this file is included in your build
+   - It should contain: `/* /index.html 200`
+
+3. **Shopify Configuration:**
+   - Verify your Shopify store is active and products are published
+   - Check that the Storefront API app has correct permissions
+   - Test your API credentials locally first
 
 ## 📊 Build Stats
 
