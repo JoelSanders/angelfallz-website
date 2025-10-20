@@ -67,9 +67,7 @@ function App() {
           <div className="max-w-screen-2xl mx-auto px-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6">
               <div className="text-center md:text-left">
-                <p className={`text-sm md:text-base ${isDark ? 'text-white/70' : 'text-black/70'}`}>
-                  Modern streetwear for the next generation
-                </p>
+                
               </div>
               <div className="flex gap-6 pointer-events-auto">
                 <a 
