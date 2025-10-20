@@ -94,9 +94,10 @@ If you see 404 errors or products not loading on the deployed site:
    - Redeploy the site after adding variables
 
 2. **SPA Routing Issues:**
-   - The `public/_redirects` file handles client-side routing
-   - Ensure this file is included in your build
-   - It should contain: `/* /index.html 200`
+   - Cloudflare Pages uses `functions/_middleware.ts` for SPA routing
+   - The `public/_routes.json` file configures which routes to handle
+   - Ensure both files are included in your repository
+   - DO NOT use `_redirects` file - it causes infinite loop errors on Cloudflare
 
 3. **Shopify Configuration:**
    - Verify your Shopify store is active and products are published
