@@ -3,16 +3,20 @@
   "include": ["/*"],
   "exclude": [
     "/assets/*",
-    "*.css",
-    "*.js",
-    "*.glb",
-    "*.png",
-    "*.jpg",
-    "*.jpeg",
-    "*.svg",
-    "*.ico",
-    "*.webp",
-    "*.gif"
+    "/*.js",
+    "/*.css",
+    "/*.png",
+    "/*.jpg",
+    "/*.jpeg",
+    "/*.gif",
+    "/*.svg",
+    "/*.ico",
+    "/*.json",
+    "/*.glb",
+    "/*.webp",
+    "/*.woff",
+    "/*.woff2",
+    "/*.ttf",
+    "/*.eot"
   ]
 }
-
