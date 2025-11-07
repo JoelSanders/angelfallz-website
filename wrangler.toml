@@ -2,6 +2,11 @@ name = "angelfallz"
 main = "workers-site/index.js"
 compatibility_date = "2025-11-07"
 
+[[kv_namespaces]]
+binding = "SETTINGS"
+id = "preview_id"
+preview_id = "preview_id"
+
 [site]
 bucket = "./dist"
 

@@ -15,12 +15,19 @@ const AdminPage = ({ isDark }: AdminPageProps) => {
     const authStatus = sessionStorage.getItem('adminAuth');
     if (authStatus === 'true') {
       setIsAuthenticated(true);
+      fetchPrelaunchStatus();
     }
-
-    // Check prelaunch status from localStorage
-    const prelaunchStatus = localStorage.getItem('prelaunchEnabled');
-    setPrelaunchEnabled(prelaunchStatus === 'true');
   }, []);
+
+  const fetchPrelaunchStatus = async () => {
+    try {
+      const response = await fetch('/api/prelaunch/status');
+      const data = await response.json();
+      setPrelaunchEnabled(data.enabled);
+    } catch (e) {
+      console.error('Failed to fetch prelaunch status', e);
+    }
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,19 +39,39 @@ const AdminPage = ({ isDark }: AdminPageProps) => {
       setIsAuthenticated(true);
       sessionStorage.setItem('adminAuth', 'true');
       setError('');
+      fetchPrelaunchStatus();
     } else {
       setError('Incorrect password');
       setPassword('');
     }
   };
 
-  const togglePrelaunch = () => {
+  const togglePrelaunch = async () => {
     const newStatus = !prelaunchEnabled;
-    setPrelaunchEnabled(newStatus);
-    localStorage.setItem('prelaunchEnabled', newStatus.toString());
     
-    // Reload the page to apply changes
-    window.location.href = '/';
+    try {
+      const response = await fetch('/api/prelaunch/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          enabled: newStatus,
+          password: 'admin123' 
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setPrelaunchEnabled(newStatus);
+        // Reload to apply changes across the site
+        setTimeout(() => window.location.href = '/', 500);
+      } else {
+        alert('Failed to toggle prelaunch mode');
+      }
+    } catch (e) {
+      alert('Error toggling prelaunch mode');
+      console.error(e);
+    }
   };
 
   const handleLogout = () => {

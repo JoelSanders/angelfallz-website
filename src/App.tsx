@@ -15,15 +15,30 @@ import PrelaunchPage from './pages/PrelaunchPage';
 function PrelaunchGuard({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [prelaunchEnabled, setPrelaunchEnabled] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const prelaunchStatus = localStorage.getItem('prelaunchEnabled');
-    setPrelaunchEnabled(prelaunchStatus === 'true');
+    // Fetch prelaunch status from API
+    fetch('/api/prelaunch/status')
+      .then(res => res.json())
+      .then(data => {
+        setPrelaunchEnabled(data.enabled);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.error('Failed to fetch prelaunch status', e);
+        setLoading(false);
+      });
   }, []);
 
   // Allow admin page and prelaunch page to always be accessible
   if (location.pathname === '/admin' || location.pathname === '/prelaunch') {
     return <>{children}</>;
+  }
+
+  // Show nothing while loading to prevent flash
+  if (loading) {
+    return null;
   }
 
   // If prelaunch is enabled, redirect to prelaunch page
