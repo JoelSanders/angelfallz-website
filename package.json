@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.4.0",
     "@react-three/drei": "^9.92.0",
     "@react-three/fiber": "^8.15.0",
     "@shopify/hydrogen-react": "^2025.7.0",
