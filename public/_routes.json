@@ -1,22 +1,5 @@
 {
   "version": 1,
-  "include": ["/*"],
-  "exclude": [
-    "/assets/*",
-    "/*.js",
-    "/*.css",
-    "/*.png",
-    "/*.jpg",
-    "/*.jpeg",
-    "/*.gif",
-    "/*.svg",
-    "/*.ico",
-    "/*.json",
-    "/*.glb",
-    "/*.webp",
-    "/*.woff",
-    "/*.woff2",
-    "/*.ttf",
-    "/*.eot"
-  ]
+  "include": ["/admin", "/prelaunch"],
+  "exclude": []
 }
