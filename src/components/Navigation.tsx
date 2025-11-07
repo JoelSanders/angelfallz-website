@@ -40,12 +40,17 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
         <div className="max-w-screen-2xl mx-auto px-6 py-2">
           {/* Mobile Layout */}
           <div className="flex items-center justify-between md:hidden">
-            <h1 
+            <button
               onClick={() => navigate('/')}
-              className="text-lg font-bold tracking-wider animate-fade-in cursor-pointer hover:opacity-60 transition-opacity"
+              className="transition-all duration-300 hover:opacity-60"
+              aria-label="Home"
             >
-              ANGELFALLZ
-            </h1>
+              <img 
+                src={isDark ? '/Artboard 2.png' : '/Artboard 1.png'}
+                alt="ANGELFALLZ"
+                className="h-10 w-auto transition-opacity duration-300"
+              />
+            </button>
             <div className="flex items-center gap-2">
               {/* Mobile Logo */}
               <button
@@ -86,14 +91,19 @@ export default function Navigation({ isDark, toggleTheme, onCartOpen, onMobileMe
 
           {/* Desktop Layout */}
           <div className="hidden md:flex items-center justify-between">
-            {/* Left - Brand Name */}
+            {/* Left - Brand Logo */}
             <div className="flex-1">
-              <h1 
+              <button
                 onClick={() => navigate('/')}
-                className="text-2xl font-bold tracking-wider animate-fade-in cursor-pointer hover:opacity-60 transition-opacity"
+                className="transition-all duration-300 hover:opacity-60"
+                aria-label="Home"
               >
-                ANGELFALLZ
-              </h1>
+                <img 
+                  src={isDark ? '/Artboard 2.png' : '/Artboard 1.png'}
+                  alt="ANGELFALLZ"
+                  className="h-12 w-auto transition-opacity duration-300"
+                />
+              </button>
             </div>
 
             {/* Center - Menu with Logo */}
