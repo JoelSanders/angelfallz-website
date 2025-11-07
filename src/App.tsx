@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import Navigation from './components/Navigation';
 import MobileMenu from './components/MobileMenu';
@@ -8,11 +8,41 @@ import LiquidEther from './components/LiquidEther';
 import Cart from './components/Cart';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import AdminPage from './pages/AdminPage';
+import PrelaunchPage from './pages/PrelaunchPage';
 
-function App() {
+// Component to check prelaunch status and redirect if needed
+function PrelaunchGuard({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const [prelaunchEnabled, setPrelaunchEnabled] = useState(false);
+
+  useEffect(() => {
+    const prelaunchStatus = localStorage.getItem('prelaunchEnabled');
+    setPrelaunchEnabled(prelaunchStatus === 'true');
+  }, []);
+
+  // Allow admin page and prelaunch page to always be accessible
+  if (location.pathname === '/admin' || location.pathname === '/prelaunch') {
+    return <>{children}</>;
+  }
+
+  // If prelaunch is enabled, redirect to prelaunch page
+  if (prelaunchEnabled) {
+    return <Navigate to="/prelaunch" replace />;
+  }
+
+  return <>{children}</>;
+}
+
+// Wrapper component to conditionally render navigation
+function AppContent() {
+  const location = useLocation();
   const [isDark, setIsDark] = useState(false); // Default to light mode
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Check if we're on the prelaunch page
+  const isPrelaunchPage = location.pathname === '/prelaunch';
 
   useEffect(() => {
     if (isDark) {
@@ -92,12 +122,12 @@ function App() {
   );
 
   return (
-    <Router>
-      <CartProvider>
-        <div className={`min-h-screen transition-colors duration-500 ${
-          isDark ? 'bg-black text-white' : 'bg-white text-black'
-        }`}>
-          {/* Navigation */}
+    <div className={`min-h-screen transition-colors duration-500 ${
+      isDark ? 'bg-black text-white' : 'bg-white text-black'
+    }`}>
+      {/* Navigation - Hidden on prelaunch page */}
+      {!isPrelaunchPage && (
+        <>
           <Navigation 
             isDark={isDark} 
             toggleTheme={toggleTheme}
@@ -119,15 +149,29 @@ function App() {
             isOpen={isCartOpen} 
             onClose={() => setIsCartOpen(false)} 
           />
+        </>
+      )}
 
-          {/* Routes */}
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/product/:handle" element={<ProductDetailPage isDark={isDark} />} />
-            <Route path="/about" element={<div className="pt-32 pb-20 text-center">About/Contact page coming soon</div>} />
-            <Route path="/terms" element={<div className="pt-32 pb-20 text-center">Terms & Conditions page coming soon</div>} />
-          </Routes>
-        </div>
+      {/* Routes */}
+      <PrelaunchGuard>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/product/:handle" element={<ProductDetailPage isDark={isDark} />} />
+          <Route path="/about" element={<div className="pt-32 pb-20 text-center">About/Contact page coming soon</div>} />
+          <Route path="/terms" element={<div className="pt-32 pb-20 text-center">Terms & Conditions page coming soon</div>} />
+          <Route path="/admin" element={<AdminPage isDark={isDark} />} />
+          <Route path="/prelaunch" element={<PrelaunchPage isDark={isDark} />} />
+        </Routes>
+      </PrelaunchGuard>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <CartProvider>
+        <AppContent />
       </CartProvider>
     </Router>
   );
