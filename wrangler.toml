@@ -1,0 +1,7 @@
+name = "angelfallz"
+main = "public/_worker.js"
+compatibility_date = "2025-11-07"
+
+[site]
+bucket = "./dist"
+
