@@ -4,8 +4,8 @@ compatibility_date = "2025-11-07"
 
 [[kv_namespaces]]
 binding = "SETTINGS"
-id = "preview_id"
-preview_id = "preview_id"
+id = "a48e1a0028fe455fa4862e223ba1a0f3"
+preview_id = "a48e1a0028fe455fa4862e223ba1a0f3"
 
 [site]
 bucket = "./dist"
